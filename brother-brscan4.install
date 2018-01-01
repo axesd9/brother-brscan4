@@ -1,0 +1,18 @@
+CONFIG="/opt/brother/scanner/brscan4/brsanenetdevice4.cfg"
+
+post_install() {
+    /opt/brother/scanner/brscan4/setupSaneScan4 -i
+    echo "sudo brsaneconfig4 -a name=WiFiScanner model=\"DCP-J140W\" ip=192.168.1.254"
+}
+
+pre_upgrade() {
+    [ -f $CONFIG ] && cp $CONFIG $CONFIG.backup
+}
+
+post_upgrade() {
+    [ -f $CONFIG.backup ] && mv $CONFIG.backup $CONFIG
+}
+
+pre_remove() {
+    /opt/brother/scanner/brscan4/setupSaneScan4 -e
+}
